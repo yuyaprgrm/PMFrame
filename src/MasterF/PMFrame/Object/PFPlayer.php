@@ -67,4 +67,17 @@ class PFPlayer {
     }, $tick);
   }
 
+  public function addItem($item) {
+    $this->player->getInventory()->addItem($item);
+  }
+
+  public function removeItem($item) {
+    $this->player->getInventory()->removeItem($item);
+  }
+
+  public function cleanHotbar($slot) {
+    $inv = $this->player->getInventory();
+    $inv->clear($inv->getHeldItemSlot());
+  }
+
 }

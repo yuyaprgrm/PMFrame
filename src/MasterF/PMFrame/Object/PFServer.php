@@ -3,6 +3,7 @@
 namespace MasterF\PMFrame\Object;
 
 use pocketmine\Server;
+use pocketmine\scheduler\Task;
 
 class PFServer {
 
@@ -40,12 +41,36 @@ class PFServer {
     $this->server->getPluginManager()->registerEvents($listener, $plugin);
   }
 
-  public function scheduleDelayedTask($func, $tick) {
-    $this->server->getScheduler()->scheduleDelayedTask(new PFTask($func), $tick);
+  public function scheduleDelayedTask($task, $tick) {
+
+    if(is_callable($task))
+      $Ttask = new PFTask($task);
+    else if($task instanceof Task)
+     $Ttask = $task;
+     else
+    $Ttask = null;
+
+    if($task === null) return false;
+
+    $this->server->getScheduler()->scheduleDelayedTask($task, $tick);
+
+    return true;
   }
 
-  public function scheduleRepeatingTask($func, $tick) {
-    $this->server->getScheduler()->scheduleRepeatingTask(new PFTask($func), $tick);
+  public function scheduleRepeatingTask($task, $tick) {
+    // var_dump(is_callable($task));
+    if(is_callable($task))
+      $Ttask = new PFTask($task);
+    else if($task instanceof Task)
+     $Ttask = $task;
+     else
+    $Ttask = null;
+
+    if($Ttask === null) return false;
+
+    $this->server->getScheduler()->scheduleRepeatingTask($Ttask, $tick);
+
+    return true;
   }
 
 }

@@ -10,7 +10,7 @@ class PFTask extends Task {
   private $func;
   private $pararm;
 
-  public function __construct($func, ...$params) {
+  public function __construct(callable $func, ...$params) {
     $this->func = $func;
     $this->param = new PFArray($params);
   }
